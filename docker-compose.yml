@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+    exportpp:
+        container_name: exportpp
+        build: .
+        ports:
+            - "8080:80"
+        volumes:
+            - ./.docker/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+            - .:/usr/share/nginx
+        networks:
+            - networkis
+        depends_on:
+            - redis
+
+    redis:
+        image: redis:latest
+        container_name: redis
+        ports:
+            - "6379:6379"
+        networks:
+            - networkis
+            
+networks: 
+    networkis:
+        driver: bridge
